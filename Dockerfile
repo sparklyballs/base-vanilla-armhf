@@ -1,7 +1,7 @@
 FROM vimagick/alpine-arm:3.3
 MAINTAINER sparklyballs
 
-set some environment variables
+# set some environment variables
 ENV PS1="$(whoami)@$(hostname):$(pwd)$ " \
 HOME="/root" \
 TERM="xterm"
