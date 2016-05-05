@@ -26,10 +26,12 @@ mkdir -p /config /app /defaults
 RUN curl -o /tmp/s6-overlay.tar.gz -L \
 https://github.com/just-containers/s6-overlay/releases/download/v1.17.1.1/s6-overlay-amd64.tar.gz && \
 tar xvfz /tmp/s6-overlay.tar.gz -C / && \
-rm -f /tmp/s6-overlay.tar.gz
+apk add --update s6 s6-portable-utils && \
+rm -rf /var/cache/apk/* /tmp/*
 
 # add local files
 COPY root/ /
 
 ENTRYPOINT ["/init"]
+
 
