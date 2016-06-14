@@ -51,5 +51,3 @@ rm -rf /var/cache/apk/* /tmp/*
 COPY root/ /
 
 ENTRYPOINT ["/init"]
-
-
