@@ -1,4 +1,4 @@
-FROM vimagick/alpine-arm:3.4
+FROM easypi/alpine-arm:3.4
 MAINTAINER sparklyballs
 
 # set some environment variables
