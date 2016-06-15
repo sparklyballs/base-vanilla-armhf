@@ -1,6 +1,9 @@
 FROM easypi/alpine-arm:3.4
 MAINTAINER sparklyballs
 
+# set version for s6 overlay
+ARG OVERLAY_VERSION="v1.18.1.0"
+
 # set some environment variables
 ENV PS1="$(whoami)@$(hostname):$(pwd)$ " \
 HOME="/root" \
@@ -8,22 +11,29 @@ TERM="xterm"
 
 # add packages
 RUN \
-apk add --no-cache \
-	bash \
+ apk add --no-cache --virtual=build-dependencies \
 	curl \
-	nano \
-	tar \
-	tzdata \
-	unrar \
-	unzip \
-	wget \
-	xz && \
+	tar && \
+
+ apk add --no-cache \
+	bash \
+	s6 \
+	s6-portable-utils \
+	tzdata && \
 
 apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing \
 	shadow && \
 
+# add s6 overlay
+ curl -o \
+	/tmp/s6-overlay.tar.gz -L \
+	https://github.com/just-containers/s6-overlay/releases/download/"${OVERLAY_VERSION}"/s6-overlay-nobin.tar.gz && \
+	tar xvfz /tmp/s6-overlay.tar.gz -C / && \
+
 # clean up
-rm -rf /var/cache/apk/*
+ apk del --purge \
+	build-dependencies && \
+ rm -rf /var/cache/apk/* /tmp/*
 
 # create mab user
 RUN \
@@ -34,20 +44,7 @@ RUN \
 # create some folders
 	mkdir -p /config /app /defaults
 
-
-# add s6 overlay
-RUN \
- curl -o /tmp/s6-overlay.tar.gz -L \
-	https://github.com/just-containers/s6-overlay/releases/download/v1.17.1.1/s6-overlay-amd64.tar.gz && \
- tar xvfz /tmp/s6-overlay.tar.gz -C / && \
-
- apk add --update \
-	s6 \
-	s6-portable-utils && \
-
-rm -rf /var/cache/apk/* /tmp/*
-
-# add local files
+# add local files
 COPY root/ /
 
 ENTRYPOINT ["/init"]
