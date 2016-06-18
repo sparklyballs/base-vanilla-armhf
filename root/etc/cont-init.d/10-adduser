@@ -4,21 +4,28 @@
 PUID=${PUID:-911}
 PGID=${PGID:-911}
 
-if [ ! "$(id -u mab)" -eq "$PUID" ]; then usermod -o -u "$PUID" mab ; fi
-if [ ! "$(id -g mab)" -eq "$PGID" ]; then groupmod -o -g "$PGID" mab ; fi
+if [ ! "$(id -u abc)" -eq "$PUID" ]; then usermod -o -u "$PUID" abc ; fi
+if [ ! "$(id -g abc)" -eq "$PGID" ]; then groupmod -o -g "$PGID" abc ; fi
 
 echo "
- __.         .  .   .     ..
-(__ ._  _.._.;_/|  .|_  _.|| __
-.__)[_)(_][  | \|\_|[_)(_]||_)  *
-    |            ._|
+-------------------------------------
+          _     _ _
+         | |___| (_) ___
+         | / __| | |/ _ \ 
+         | \__ \ | | (_) |
+         |_|___/ |_|\___/
+               |_|
+
+Brought to you by linuxserver.io
+We do accept donations at:
+https://www.linuxserver.io/donations
 -------------------------------------
 GID/UID
 -------------------------------------
-User uid:    $(id -u mab)
-User gid:    $(id -g mab)
+User uid:    $(id -u abc)
+User gid:    $(id -g abc)
 -------------------------------------
 "
-chown mab:mab /app
-chown mab:mab /config
-chown mab:mab /defaults
+chown abc:abc /app
+chown abc:abc /config
+chown abc:abc /defaults

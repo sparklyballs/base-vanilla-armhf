@@ -1,7 +1,7 @@
 FROM easypi/alpine-arm:3.4
 MAINTAINER sparklyballs
 
-# set version for s6 overlay
+# set version for s6 overlay
 ARG OVERLAY_VERSION="v1.18.1.0"
 
 # set some environment variables
@@ -9,7 +9,7 @@ ENV PS1="$(whoami)@$(hostname):$(pwd)$ " \
 HOME="/root" \
 TERM="xterm"
 
-# add packages
+# add packages
 RUN \
  apk add --no-cache --virtual=build-dependencies \
 	curl \
@@ -35,16 +35,16 @@ apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing \
 	build-dependencies && \
  rm -rf /var/cache/apk/* /tmp/*
 
-# create mab user
+# create abc user
 RUN \
 	groupmod -g 1000 users && \
-	useradd -u 911 -U -d /config -s /bin/false mab && \
-	usermod -G users mab && \
+	useradd -u 911 -U -d /config -s /bin/false abc && \
+	usermod -G users abc && \
 
-# create some folders
+# create some folders
 	mkdir -p /config /app /defaults
 
-# add local files
+# add local files
 COPY root/ /
 
 ENTRYPOINT ["/init"]
